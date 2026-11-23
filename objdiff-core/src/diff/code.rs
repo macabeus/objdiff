@@ -369,10 +369,16 @@ fn arg_eq(
             InstructionArg::Reloc => diff_config.function_reloc_diffs == FunctionRelocDiffs::None,
             _ => false,
         },
-        InstructionArg::Reloc => {
-            matches!(right_arg, InstructionArg::Reloc)
-                && reloc_eq(left_obj, right_obj, left_ins, right_ins, diff_config)
-        }
+        InstructionArg::Reloc => match right_arg {
+            InstructionArg::Reloc => {
+                reloc_eq(left_obj, right_obj, left_ins, right_ins, diff_config)
+            }
+            // If relocations are relaxed, match if left is a reloc and right is a constant
+            // Useful for instances where the base object is created without relocations
+            InstructionArg::Value(_) | InstructionArg::BranchDest(_) => {
+                diff_config.function_reloc_diffs == FunctionRelocDiffs::None
+            }
+        },
         InstructionArg::BranchDest(_) => match right_arg {
             // Compare dest instruction idx after diffing
             InstructionArg::BranchDest(_) => {

@@ -335,7 +335,10 @@ impl dyn Arch {
             if target.section != Some(resolved.section_index) {
                 continue;
             }
-            let Some(target_address) = target.address.checked_add_signed(reloc.addend) else {
+            let Some(target_address) = target
+                .address
+                .checked_add_signed(reloc.addend + self.branch_reloc_pc_offset(reloc.flags))
+            else {
                 continue;
             };
             // If the target address is within the function range, set it as a branch destination
@@ -453,6 +456,10 @@ pub trait Arch: Any + Debug + Send + Sync {
     }
 
     fn reloc_name(&self, _flags: RelocationFlags) -> Option<&'static str> { None }
+
+    /// How far a branch relocation's `S + A` is from the branch's destination: a branch whose
+    /// relocation targets symbol `S` with addend `A` goes to `S + A + offset`.
+    fn branch_reloc_pc_offset(&self, _flags: RelocationFlags) -> i64 { 0 }
 
     fn data_reloc_size(&self, flags: RelocationFlags) -> usize;
 

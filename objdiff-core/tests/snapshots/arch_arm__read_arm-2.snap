@@ -457,19 +457,12 @@ expression: diff.instruction_rows
                 address: 140,
                 size: 4,
                 opcode: 32775,
-                branch_dest: Some(
-                    464,
-                ),
+                branch_dest: None,
             },
         ),
         kind: None,
         branch_from: None,
-        branch_to: Some(
-            InstructionBranchTo {
-                ins_idx: 106,
-                branch_idx: 8,
-            },
-        ),
+        branch_to: None,
         arg_diff: [],
     },
     InstructionDiffRow {
@@ -960,7 +953,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 59,
-                branch_idx: 9,
+                branch_idx: 8,
             },
         ),
         arg_diff: [],
@@ -1050,7 +1043,7 @@ expression: diff.instruction_rows
                 ins_idx: [
                     53,
                 ],
-                branch_idx: 9,
+                branch_idx: 8,
             },
         ),
         branch_to: None,
@@ -1086,7 +1079,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 72,
-                branch_idx: 10,
+                branch_idx: 9,
             },
         ),
         arg_diff: [],
@@ -1107,7 +1100,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 74,
-                branch_idx: 11,
+                branch_idx: 10,
             },
         ),
         arg_diff: [],
@@ -1142,7 +1135,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 77,
-                branch_idx: 12,
+                branch_idx: 11,
             },
         ),
         arg_diff: [],
@@ -1191,7 +1184,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 77,
-                branch_idx: 12,
+                branch_idx: 11,
             },
         ),
         arg_diff: [],
@@ -1240,7 +1233,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 85,
-                branch_idx: 13,
+                branch_idx: 12,
             },
         ),
         arg_diff: [],
@@ -1261,7 +1254,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 77,
-                branch_idx: 12,
+                branch_idx: 11,
             },
         ),
         arg_diff: [],
@@ -1281,7 +1274,7 @@ expression: diff.instruction_rows
                 ins_idx: [
                     61,
                 ],
-                branch_idx: 10,
+                branch_idx: 9,
             },
         ),
         branch_to: None,
@@ -1303,7 +1296,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 77,
-                branch_idx: 12,
+                branch_idx: 11,
             },
         ),
         arg_diff: [],
@@ -1323,7 +1316,7 @@ expression: diff.instruction_rows
                 ins_idx: [
                     62,
                 ],
-                branch_idx: 11,
+                branch_idx: 10,
             },
         ),
         branch_to: None,
@@ -1359,7 +1352,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 85,
-                branch_idx: 13,
+                branch_idx: 12,
             },
         ),
         arg_diff: [],
@@ -1382,7 +1375,7 @@ expression: diff.instruction_rows
                     71,
                     73,
                 ],
-                branch_idx: 12,
+                branch_idx: 11,
             },
         ),
         branch_to: None,
@@ -1446,7 +1439,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 85,
-                branch_idx: 13,
+                branch_idx: 12,
             },
         ),
         arg_diff: [],
@@ -1510,7 +1503,7 @@ expression: diff.instruction_rows
                     76,
                     81,
                 ],
-                branch_idx: 13,
+                branch_idx: 12,
             },
         ),
         branch_to: None,
@@ -1588,7 +1581,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 96,
-                branch_idx: 14,
+                branch_idx: 13,
             },
         ),
         arg_diff: [],
@@ -1608,7 +1601,7 @@ expression: diff.instruction_rows
                 ins_idx: [
                     95,
                 ],
-                branch_idx: 15,
+                branch_idx: 14,
             },
         ),
         branch_to: None,
@@ -1672,7 +1665,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 91,
-                branch_idx: 15,
+                branch_idx: 14,
             },
         ),
         arg_diff: [],
@@ -1692,7 +1685,7 @@ expression: diff.instruction_rows
                 ins_idx: [
                     90,
                 ],
-                branch_idx: 14,
+                branch_idx: 13,
             },
         ),
         branch_to: None,
@@ -1756,7 +1749,7 @@ expression: diff.instruction_rows
         branch_to: Some(
             InstructionBranchTo {
                 ins_idx: 102,
-                branch_idx: 16,
+                branch_idx: 15,
             },
         ),
         arg_diff: [],
@@ -1790,7 +1783,7 @@ expression: diff.instruction_rows
                 ins_idx: [
                     100,
                 ],
-                branch_idx: 16,
+                branch_idx: 15,
             },
         ),
         branch_to: None,
@@ -1848,14 +1841,7 @@ expression: diff.instruction_rows
             },
         ),
         kind: None,
-        branch_from: Some(
-            InstructionBranchFrom {
-                ins_idx: [
-                    25,
-                ],
-                branch_idx: 8,
-            },
-        ),
+        branch_from: None,
         branch_to: None,
         arg_diff: [],
     },

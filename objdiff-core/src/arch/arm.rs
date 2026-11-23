@@ -435,6 +435,23 @@ impl Arch for ArchArm {
         }
     }
 
+    fn branch_reloc_pc_offset(&self, flags: RelocationFlags) -> i64 {
+        // A branch's offset is relative to the PC, which reads 8 bytes past an ARM instruction and
+        // 4 past a Thumb one, so the addend of a branch to `S` is -8 or -4.
+        match flags {
+            RelocationFlags::Elf(
+                elf::R_ARM_PC24 | elf::R_ARM_XPC25 | elf::R_ARM_CALL | elf::R_ARM_JUMP24,
+            ) => 8,
+            RelocationFlags::Elf(
+                elf::R_ARM_THM_PC22
+                | elf::R_ARM_THM_XPC22
+                | elf::R_ARM_THM_PC11
+                | elf::R_ARM_THM_PC9,
+            ) => 4,
+            _ => 0,
+        }
+    }
+
     fn data_reloc_size(&self, flags: RelocationFlags) -> usize {
         match flags {
             RelocationFlags::Elf(r_type) => match r_type {

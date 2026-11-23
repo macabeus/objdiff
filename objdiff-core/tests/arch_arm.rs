@@ -131,3 +131,57 @@ fn do_not_trim_trailing_relocations() {
     let output = common::display_diff(&obj, &diff, symbol_idx, &diff_config);
     insta::assert_snapshot!(output);
 }
+
+/// Two objects with the same `caller` and `callee`, in that order, so `callee` comes right after
+/// `caller`. `thumb_call_resolved.o`'s `bl callee` goes to a local label, so the assembler resolved
+/// it with no relocation; `thumb_call_relocated.o`'s goes to a global symbol, with an
+/// `R_ARM_THM_CALL`, and links to the same bytes.
+#[cfg(feature = "arm")]
+const THUMB_CALL_RESOLVED: &[u8] = include_object!("data/arm/thumb_call_resolved.o");
+#[cfg(feature = "arm")]
+const THUMB_CALL_RELOCATED: &[u8] = include_object!("data/arm/thumb_call_relocated.o");
+
+/// The match percentage of `caller` when `target` is diffed against `base`.
+#[cfg(feature = "arm")]
+fn thumb_call_match_percent(
+    target: &[u8],
+    base: &[u8],
+    function_reloc_diffs: diff::FunctionRelocDiffs,
+) -> f32 {
+    let diff_config = diff::DiffObjConfig { function_reloc_diffs, ..Default::default() };
+    let target_obj = obj::read::parse(target, &diff_config, diff::DiffSide::Target).unwrap();
+    let base_obj = obj::read::parse(base, &diff_config, diff::DiffSide::Base).unwrap();
+    let diff = diff::diff_objs(
+        Some(&target_obj),
+        Some(&base_obj),
+        None,
+        &diff_config,
+        &diff::MappingConfig::default(),
+    )
+    .unwrap();
+    let symbol_idx = target_obj.symbols.iter().position(|s| s.name == "caller").unwrap();
+    diff.left.as_ref().unwrap().symbols[symbol_idx].match_percent.unwrap()
+}
+
+#[test]
+#[cfg(feature = "arm")]
+fn relaxed_reloc_diffs_match_thumb_call_resolved_in_target() {
+    let percent =
+        |relocs| thumb_call_match_percent(THUMB_CALL_RESOLVED, THUMB_CALL_RELOCATED, relocs);
+    // With relocation diffs relaxed, a call the target's assembler resolved matches the base's
+    // relocated call.
+    assert_eq!(percent(diff::FunctionRelocDiffs::None), 100.0);
+    // Otherwise the missing relocation is still a difference.
+    assert!(percent(diff::FunctionRelocDiffs::NameAddress) < 100.0);
+}
+
+#[test]
+#[cfg(feature = "arm")]
+fn relaxed_reloc_diffs_match_thumb_call_resolved_in_base() {
+    let percent =
+        |relocs| thumb_call_match_percent(THUMB_CALL_RELOCATED, THUMB_CALL_RESOLVED, relocs);
+    // The same the other way round: the target's relocated call matches a call the base's
+    // assembler resolved.
+    assert_eq!(percent(diff::FunctionRelocDiffs::None), 100.0);
+    assert!(percent(diff::FunctionRelocDiffs::NameAddress) < 100.0);
+}
